@@ -14,9 +14,9 @@ def text_menu():
         case 'y':
             save_in_file_string = "Would you like to save your ProtonMail accounts in file?"
             print(save_in_file_string)
-            save_in_account = get_user_input() == 'y'
+            save_in_file = get_user_input() == 'y'
 
-            if save_in_account:
+            if save_in_file:
                 if not os.path.isfile(filename):
                     print(f"Creating {filename} for saving ProtonMail accounts...")
                     create_new_file(filename, first_row=['protonmail address', 'protonmail password', 'date and time'])
@@ -27,7 +27,7 @@ def text_menu():
                 accounts = create_accounts(count=int(ui))
                 for account in accounts:
                     print(f"Created account! Login: {account[0]} Password: {account[1]}")
-                    if save_in_account:
+                    if save_in_file:
                         add_to_file(data=[account], filename=filename)
                         print(f"Data saved to {filename}")
         case 'n':
