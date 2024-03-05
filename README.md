@@ -14,3 +14,14 @@ To start using this script, you need to:
 
 
 ### To find how to disable/enable the browser window mode, go to settings.py and set show_browser_window parameter
+```python
+filename = 'proton_accounts.csv'
+
+# If this parameter is True, you can observe the registration process in the browser step by step
+show_browser_window = False  # True or False
+# waiting between creating emails
+time_to_sleep_before_run_next = 30  # seconds
+
+# Please wait a few minutes before sending email alert (in register_with_temporary_email method)
+time_to_slee_if_exception_in_alert_occurred = 10  # seconds
+```
