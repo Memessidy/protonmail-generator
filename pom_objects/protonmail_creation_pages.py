@@ -10,7 +10,7 @@ class ProtonmailCreationPages(BasePlaywright):
     def __init__(self):
         super().__init__()
         self.url = 'https://account.proton.me/mail/signup?plan=free'
-        self.protonmail_domain = '@proton.me'
+        self.protonmail_domain = settings.protonmail_domain
         self.user = User()
 
     def change_language_to_eng_button(self):
