@@ -10,3 +10,6 @@ time_to_slee_if_exception_in_alert_occurred = 10  # seconds
 
 # protonmail domain
 protonmail_domain = '@proton.me'
+
+# If you want to open this file in ms excel, leave ';'
+csv_delimiter =';'
