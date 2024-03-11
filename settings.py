@@ -2,6 +2,7 @@ filename = 'proton_accounts.csv'
 
 # If this parameter is True you can see how all registration works in browser step by step
 show_browser_window = False  # True or False
+
 # waiting between creating emails
 time_to_sleep_before_run_next = 30  # seconds
 
