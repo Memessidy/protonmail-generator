@@ -48,7 +48,6 @@ class ProtonmailCreationPages(BasePlaywright):
     def register_with_temporary_email(self):
         print("Trying to register using temporary email")
         alert = self.try_register_using_temp_mail()
-
         if 'Please wait a few minutes' in alert:
             time.sleep(10)
             self.page.get_by_role("button", name="Get verification code").click()
@@ -74,9 +73,12 @@ class ProtonmailCreationPages(BasePlaywright):
         self.page.get_by_role("button", name="Maybe later").click()
         self.page.get_by_role("button", name="Confirm").click()
         self.page.wait_for_load_state('networkidle')
-        self.page.get_by_role("button", name="Next", exact=True).click()
-        self.page.get_by_role("button", name="Next", exact=True).click()
-        self.page.get_by_role("button", name="Skip").click()
+        try:
+            self.page.get_by_role("button", name="Next", exact=True).click()
+            self.page.get_by_role("button", name="Next", exact=True).click()
+            self.page.get_by_role("button", name="Skip").click()
+        except:
+            print('Account created, but advertising is not skipped')
 
     def return_proton_data(self):
         return self.user.nickname + self.protonmail_domain, self.user.password
