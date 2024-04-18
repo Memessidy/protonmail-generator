@@ -1,1 +1,0 @@
-CALL .\ENV\Scripts\python .\app.py
