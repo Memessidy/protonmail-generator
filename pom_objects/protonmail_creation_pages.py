@@ -1,4 +1,4 @@
-from exceptions.possible_exceptions import NoEmailVerification
+from exceptions.possible_exceptions import NoEmailVerification, GettingVerificationCodeException
 from pom_objects.base_playwright import BasePlaywright
 from common.user import User
 import time
@@ -29,6 +29,10 @@ class ProtonmailCreationPages(BasePlaywright):
         print("Creating account button pressed")
         self.page.get_by_role("button", name="Create account").click()
 
+    def switch_temporary_email(self):
+        self.user.get_another_domain()
+        print(f"New domain is {self.user.email_interface.email_domain}")
+
     def try_register_using_temp_mail(self):
         print("Finding email button and field...")
         try:
@@ -55,15 +59,23 @@ class ProtonmailCreationPages(BasePlaywright):
             while ('Email address verification temporarily disabled for this email domain. '
                   'Please try another verification method') in alert:
                 print(f"Email domain {self.user.email_interface.email_domain} is not enable for verification now!")
-                self.user.get_another_domain()
-                print(f"New domain is {self.user.email_interface.email_domain}")
+                self.switch_temporary_email()
                 alert = self.try_register_using_temp_mail()
 
     def insert_verification_code(self):
-        print("Trying to find a verification code")
-        code = self.user.verification_code
-        if code:
-            print(f"Verification code: {code}")
+        while True:
+            print("Trying to find a verification code")
+            try:
+                code = self.user.verification_code
+                if code:
+                    print(f"Verification code: {code}")
+                    break
+            except GettingVerificationCodeException:
+                print(f'{self.user.email_interface.email_domain} domain is not working now...')
+                self.switch_temporary_email()
+                self.page.get_by_role("button", name="Back").click()
+                self.register_with_temporary_email()
+
         self.page.get_by_test_id("input-input-element").fill(code)
         self.page.get_by_role("button", name="Verify").click()
 
