@@ -5,6 +5,7 @@ from datetime import tzinfo, timedelta, datetime
 from time import time, sleep
 import json
 import requests
+import re
 
 ZERO = timedelta(0)
 SESSION_TIMEOUT_SECONDS = 3600
@@ -188,7 +189,8 @@ class GuerrillaMail:
                 if 'guerrilla' not in mail.sender:
                     content = self.session.get_email(mail.guid).body
                 if content:
-                    return content.split('<br>')[1].strip('</p>')
+                    return re.search(r'\b\d{6}\b', content).group()
+                    # return content.split('<br>')[1].strip('</p>')
                 else:
                     sleep(self.sleeping_time)
         else:
