@@ -39,7 +39,7 @@ class MailDrop:
         self.__content_html = response.json()['data']['message']['html']
 
     def __get_verification_code(self):
-        self.__verification_code = re.search(r'\d{4,10}', self.__content_html).group()
+        self.__verification_code = re.search(r'\b\d{6}\b', self.__content_html).group()
 
     def get_code(self):
         message_exists = self.__get_message_id()
