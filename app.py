@@ -1,8 +1,8 @@
 import os
+import settings
 from common.get_choice import get_user_input, check_num
 from common.save_in_file import add_to_file, create_new_file
 from pom_objects.protonmail_creation_pages import create_accounts
-from settings import filename
 
 
 def text_menu():
@@ -17,19 +17,20 @@ def text_menu():
             save_in_file = get_user_input() == 'y'
 
             if save_in_file:
-                if not os.path.isfile(filename):
-                    print(f"Creating {filename} for saving ProtonMail accounts...")
-                    create_new_file(filename, first_row=['protonmail address', 'protonmail password', 'date and time'])
+                if not os.path.isfile(settings.filename):
+                    print(f"Creating {settings.filename} for saving ProtonMail accounts...")
+                    create_new_file(settings.filename,
+                                    first_row=['protonmail address', 'protonmail password', 'date and time'])
 
-            print("How many accounts would you like to create? (min=1, max=3)")
+            print(f"How many accounts would you like to create? (min=1, max={settings.max_accounts_count})")
             ui = input('>> ')
             if check_num(ui):
                 accounts = create_accounts(count=int(ui))
                 for account in accounts:
                     print(f"Created account! Login: {account[0]} Password: {account[1]}")
                     if save_in_file:
-                        add_to_file(data=[account], filename=filename)
-                        print(f"Data saved to {filename}")
+                        add_to_file(data=[account], filename=settings.filename)
+                        print(f"Data saved to {settings.filename}")
         case 'n':
             print('Thanks for using this script!')
 

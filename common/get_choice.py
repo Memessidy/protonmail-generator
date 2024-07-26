@@ -1,3 +1,6 @@
+import settings
+
+
 def get_user_choice(q_string: str = None,
                     parse_string: bool = False,
                     var_count: int = 0) -> str:
@@ -24,10 +27,10 @@ def get_user_input(symbols=('y', 'n')):
     return ui
 
 
-def check_num(input_str, max_val=4):
+def check_num(input_str):
     try:
         num = int(input_str)
     except Exception:
         return False
 
-    return 0 < num < max_val
+    return 0 < num <= settings.max_accounts_count

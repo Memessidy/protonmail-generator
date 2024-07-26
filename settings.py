@@ -14,3 +14,6 @@ protonmail_domain = '@proton.me'
 
 # If you want to open this file in ms excel, leave ';'
 csv_delimiter =';'
+
+# How many accounts can app create by 1 session
+max_accounts_count = 5
