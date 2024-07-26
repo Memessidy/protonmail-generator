@@ -57,7 +57,7 @@ class ProtonmailCreationPages(BasePlaywright):
             self.page.get_by_role("button", name="Get verification code").click()
         else:
             while ('Email address verification temporarily disabled for this email domain. '
-                  'Please try another verification method') in alert:
+                   'Please try another verification method') in alert:
                 print(f"Email domain {self.user.email_interface.email_domain} is not enable for verification now!")
                 self.switch_temporary_email()
                 alert = self.try_register_using_temp_mail()
@@ -92,9 +92,6 @@ class ProtonmailCreationPages(BasePlaywright):
         except:
             print('Account created, but advertising is not skipped')
 
-    def return_proton_data(self):
-        return self.user.nickname + self.protonmail_domain, self.user.password
-
     def run_registration(self):
         self.go_to(self.url)
         self.change_language_to_eng_button()
@@ -104,26 +101,21 @@ class ProtonmailCreationPages(BasePlaywright):
         self.insert_verification_code()
         self.finishing_registration()
 
+    def create_accounts(self, count: int):
+        self.user.get_another_domain()
+        try:
+            for i in range(1, count + 1):
+                if i > 1:
+                    print(f"Waiting {settings.time_to_sleep_before_run_next} seconds before starting next...")
+                    time.sleep(settings.time_to_sleep_before_run_next)
+                print(f"Creating {i} account")
+                self.user.generate_new_user()
+                self.run_registration()
+                protonmail_login, protonmail_password = self.user.nickname + self.protonmail_domain, self.user.password
+                current_time = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+                yield protonmail_login, protonmail_password, current_time
 
-def create_accounts(count: int):
-    proton = ProtonmailCreationPages()
-    proton.user.get_another_domain()
-
-    try:
-        for i in range(1, count + 1):
-            if i > 1:
-                print(f"Waiting {settings.time_to_sleep_before_run_next} seconds before starting next...")
-                time.sleep(settings.time_to_sleep_before_run_next)
-
-            print(f"Creating {i} account")
-            proton.user.generate_new_user()
-
-            proton.run_registration()
-            protonmail_login, protonmail_password = proton.return_proton_data()
-            current_time = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-            yield protonmail_login, protonmail_password, current_time
-
-    except Exception as exc:
-        raise Exception(exc)
-    finally:
-        proton.close_session()
+        except Exception as exc:
+            raise Exception(exc)
+        finally:
+            self.close_session()
