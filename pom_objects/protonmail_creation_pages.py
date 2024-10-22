@@ -9,14 +9,14 @@ import settings
 class ProtonmailCreationPages(BasePlaywright):
     def __init__(self):
         super().__init__()
-        self.url = 'https://account.proton.me/mail/signup?plan=free'
+        self.url = settings.protonmail_registration_address
         self.protonmail_domain = settings.protonmail_domain
         self.user = User()
 
-    def change_language_to_eng_button(self):
-        print("Changing language to eng on proton page")
-        self.page.get_by_test_id("dropdown-button").click()
-        self.page.get_by_role("button", name="English").click()
+    # def change_language_to_eng_button(self):
+    #     print("Changing language to eng on proton page")
+    #     self.page.get_by_test_id("dropdown-button").click()
+    #     self.page.get_by_role("button", name="English").click()
 
     def set_user_data(self):
         print("Filling out the fields on the registration page")
@@ -84,17 +84,18 @@ class ProtonmailCreationPages(BasePlaywright):
         self.page.get_by_role("button", name="Continue").click()
         self.page.get_by_role("button", name="Maybe later").click()
         self.page.get_by_role("button", name="Confirm").click()
-        self.page.wait_for_load_state('networkidle')
-        try:
-            self.page.get_by_role("button", name="Next", exact=True).click()
-            self.page.get_by_role("button", name="Next", exact=True).click()
-            self.page.get_by_role("button", name="Skip").click()
-        except:
-            print('Account created, but advertising is not skipped')
+
+        # self.page.wait_for_load_state('networkidle')
+        # try:
+        #     self.page.get_by_role("button", name="Next", exact=True).click()
+        #     self.page.get_by_role("button", name="Next", exact=True).click()
+        #     self.page.get_by_role("button", name="Skip").click()
+        # except:
+        #     print('Account created, but advertising is not skipped')
 
     def run_registration(self):
         self.go_to(self.url)
-        self.change_language_to_eng_button()
+        # self.change_language_to_eng_button()
         self.set_user_data()
         self.create_account_button_click()
         self.register_with_temporary_email()

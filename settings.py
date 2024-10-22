@@ -17,3 +17,5 @@ csv_delimiter =';'
 
 # How many accounts can app create by 1 session
 max_accounts_count = 5
+
+protonmail_registration_address = "https://account.proton.me/signup?plan=free&billing=24&currency=EUR&language=en"
