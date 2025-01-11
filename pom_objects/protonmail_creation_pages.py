@@ -20,8 +20,11 @@ class ProtonmailCreationPages(BasePlaywright):
 
     def set_user_data(self):
         print("Filling out the fields on the registration page")
-        (self.page.frame_locator("iframe[title=\"Username\"]")
+        (self.page.frame_locator("iframe[title=\"Email address\"]")
          .get_by_test_id("input-input-element").fill(self.user.nickname))
+        # (self.page.frame_locator("iframe[title=\"Username\"]")
+        #  .get_by_test_id("input-input-element").fill(self.user.nickname))
+
         self.page.get_by_label("Password", exact=True).fill(self.user.password)
         self.page.get_by_label("Repeat password").fill(self.user.password)
 
